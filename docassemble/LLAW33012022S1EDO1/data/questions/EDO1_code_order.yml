@@ -1,61 +1,122 @@
 ---
-features:
-  bootstrap theme: bootstrap.min.css
-  id.navbar: { color: yellow}
- 
+# Provides a brief description of the application and the authors. 
+metadata:
+  title: |
+    Tree Ark
+  description: |
+    Application designed to assist users seeking information on tree protection 
+    in urban South Australia
+  Authors:
+    - name: Jordan Buttery
+    - organisation: Flinders University
+    - name: Lachlan Cromb
+    - organisation: Flinders University
+    - name: Adarsh Jacob
+    - organisation: Flinders University
+    - name: Robert Cousins
+    - organisation: Flinders University
+    - name: Zac Caldicott-Millard 
+    - organisation: Flinders University
+  revision_date: 2022-05-16
 ---
+# Links the custom CSS file into the application.
+# Removes debugging and logging in features.
+features:
+  css: EDO1.css
+  debug: False
+---
+# The code for this application is spread across multiple files. This section ensures the main code reads all these files. 
+# Also allows desired code area to be identified for easy editing (i.e for legislation update). 
 include:
   - EDO1_tree_questions.yml
   - EDO1_exception_questions.yml
   - EDO1_preliminary_questions.yml
   - EDO1_Final_Questions.yml
+  - EDO1_Attachment_A.yml
+  - EDO1_Attachment_B.yml
 ---
+# Provides details for footer.
+default screen parts:
+  post: |
+    <div style="display: flex; height: 170px; align-items: flex-end">
+    <div style="margin: 5px; margin-left: auto; margin-right: auto; font-size: 14px; font-family: Helvetica; color: ForestGreen">
+    <small><i>
+    Developed by Flinders University for the Environmental Defenders Office
+--- 
+# Manually dictates the order of the code and the contingency of the questions.
 mandatory: true
 code: |
-  EDO1_disclaimer 
-  if EDO1_protect_trees == 'True':
-    if EDO1_district == 'False':
-      EDO1_exit_screen_2 
-  if EDO1_protect_trees == 'False':
-    EDO1_exit_screen
-  if EDO1_sigreg == 'False':
-    EDO1_trunk
-    if EDO1_circumference == '3+':
-      if EDO1_trunk == 'False':
-        if EDO1_multiple_circumference == 'False':
-          EDO1_exit_screen_3
+  if EDO1_district == 'Not Urban':
+    EDO1_exit_screen_1 
+  if EDO1_sigreg == 'Significant':
+    EDO1_significant
+  if EDO1_sigreg == 'Regulated':
+    EDO1_regulated
+  if EDO1_sigreg == 'Unsure':
+    if EDO1_Part10  == 'Tree listed':
       EDO1_significant
-    if EDO1_circumference == '2+':
-      if EDO1_trunk == 'False':
-        if EDO1_multiple_circumference == 'False':
-          EDO1_exit_screen_3
-      EDO1_regulated
+    if EDO1_Part10 == 'Tree not listed':
+      EDO1_trunk
+      if EDO1_circumference == '3+':
+        if EDO1_trunk == 'Multiple':
+          if EDO1_multiple_circumference == 'Less than 625mm':
+            EDO1_exit_screen_3
+        EDO1_significant
+      if EDO1_circumference == '2+':
+        if EDO1_trunk == 'Multiple':
+          if EDO1_multiple_circumference == 'Less than 625mm':
+            EDO1_exit_screen_3
+        EDO1_regulated
     if EDO1_circumference == '<2':
       EDO1_exit_screen_3  
-  if EDO1_dead_alive == 'False':
-    EDO1_exit_screen_dead
-  if EDO1_interrogatory == 'False':
+  if EDO1_exemption_images == 'False':
     EDO1_trees_end
-  if EDO1_10_meters == 'True':
-    EDO1_exitscreen_4
-  if EDO1_fire_hazard == 'True':
-    EDO1_exitscreen_4
-  if EDO1_department == 'True':
-    EDO1_exitscreen_4
+  if EDO1_Bushfire_Hazard_area == True:
+    if EDO1_fire_hazard == True:
+      EDO1_exitscreen_4
+  if EDO1_Bushfire_Hazard_area == False:
+    if EDO1_10_meters == True:
+      if EDO1_WM_E == False:
+        EDO1_exitscreen_4
+  EDO1_department 
+  if EDO1_department == 'Plan to remove':
+    EDO1_exitscreen_4   
   EDO1_actions
-  if EDO1_actions == 'terminate':
+  if EDO1_actions == 'Out of Scope':
     EDO1_out_of_scope
-  if EDO1_actions == 'True':
-    if EDO1_30_removal == 'True':
-      EDO1_output_A
-    if EDO1_wood_removal == 'True':
-      EDO1_output_A
-    if EDO1_material_risk == 'True':
-      EDO1_output_A
-    if EDO1_material_risk == 'False':
-      EDO1_output_B
-  if EDO1_council_approval == 'True':
-    EDO1_output_A
-  EDO1_output_B  
-    
+  if EDO1_actions == 'Maintenance Pruning':
+    if EDO1_30_removal == '<30%':
+      if EDO1_output_A == 'CopyA':
+        Attachment_A
+        EDO1_exit_screen_finale
+      elif EDO1_output_A == 'No CopyA':
+        EDO1_exit_screen_finale
+    if EDO1_wood_removal == 'Dead wood':
+      if EDO1_output_A == 'CopyA':
+        Attachment_A
+        EDO1_exit_screen_finale
+      elif EDO1_output_A == 'No CopyA':
+        EDO1_exit_screen_finale
+    if EDO1_material_risk == 'Material Risk':
+      if EDO1_output_A == 'CopyA':
+        Attachment_A
+        EDO1_exit_screen_finale
+      elif EDO1_output_A == 'No CopyA':
+        EDO1_exit_screen_finale
+    if EDO1_material_risk == 'Not Material Risk':
+      if EDO1_output_B == 'CopyB':
+        Attachment_B
+        EDO1_exit_screen_finale
+      elif EDO1_output_B == 'No CopyB':
+        EDO1_exit_screen_finale
+  if EDO1_activity_urgency == 'Urgent':
+    if EDO1_output_A == 'CopyA':
+      Attachment_A
+    elif EDO1_output_A == 'No CopyA':
+      EDO1_exit_screen_finale
+  if EDO1_activity_urgency == 'Not Urgent':
+    if EDO1_output_B == 'CopyB':
+      Attachment_B
+    elif EDO1_output_B == 'No CopyB':
+      EDO1_exit_screen_finale
 ---

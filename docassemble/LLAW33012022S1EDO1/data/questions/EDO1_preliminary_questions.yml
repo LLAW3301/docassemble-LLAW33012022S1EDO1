@@ -1,59 +1,56 @@
 ---
+## Welcome and disclaimer screen which describes the application.
+# If user selects 'I accept', application proceeds to EDO1_district.
+# If user selects 'I do not accept', application proceeds to EDO website. 
+mandatory: true  
 Question: |
   **Welcome to Tree Ark!**
 subquestion: |
-  Tree Ark is designed to... 
+  This application is designed to provide you with information regarding the 
+  protection of a particular tree in urban South Australia. 
   
-  ***Disclaimer:***  
-  **This advice is not to be taken as genuine legal advice and is not a substitute for you seeking independent legal advice.**
+  ***Disclaimer:***
+  
+  * The advice provided is **not** to be taken as legal advice
+  * This application is **not** a substitute for seeking independent legal advice
+  * You will need access to basic information regarding the tree of concern
 
-  To continue you must accept these terms 
-field: EDO1_disclaimer
+  To continue you must accept these terms.  
+event: EDO1_disclaimer
 buttons:
   - I accept: continue
   - I do not accept: exit 
     url: https://www.edo.org.au
----
-Question:
-Subquestion: | 
-    *This Application will only provide information on protecting trees and will not provide information on how to remove a tree.*
-    
-    Are you here to protect tree(s) 
-field: EDO1_protect_trees    
-buttons: 
-  - Yes: 'True'
-  - No: 'False'
-   
 --- 
+# If user selects 'No', application will lead to EDO1_exit_screen_1. 
+# If user selects 'Yes', application will proceed to EDO1_sigreg.
 question: |
-  Answer the following.
-fields:
-  - "What is your district?": EDO1_district 
-    datatype: radio
-    choices:
-      - Metropolitan
-      - Greater Metropolitan
-      - Mount Barker 
-      - Other: 'False'
----
-Question: Is the tree signficant or regulatory 
+    Is the tree located within the red area outlined below?
 subquestion: |
- A signficant and regualtory tree are ... 
+  [FILE Map-1-Greater-Adelaide-Region-1.jpg, 115%]
+field: EDO1_district 
+choices:
+  - Yes: 'True'
+  - No: 'Not Urban'
+---
+## Provides user opportunity to skip questions if they know the tree is either significant or regulated.
+# If user selects 'Significant', application proceeds to EDO1_significant.
+# If user selects 'Regulated', application proceeds to EDO1_regulated.
+# If user selects 'Unsure', application proceeds to EDO1_Part10.
+Question: |
+  The tree might have special protection under the law. 
+subquestion: |
+  Within legislation a tree may be 'significant' or 'regulated'. These terms  have **distinct legal meanings**. If these terms are unfamiliar, please select 'unsure'.    
 field: EDO1_sigreg
 choices:
-  - Significant: 'True'
-  - Regulatory: 'True'
-  - Unsure: 'False' 
+  - Significant: 'Significant'
+  - Regulated: 'Regulated'
+  - Unsure: 'Unsure' 
 ---
-event: EDO1_exit_screen
-question: This application is not for you 
-buttons:
-  - Exit: exit
-    url: https://www.edo.org.au
-  - Restart: restart
---- 
-event: EDO1_exit_screen_2 
-question: This application only applies to urban areas 
+## Exit screen which provides opportunity to 'restart' application or 'exit' to the EDO website. 
+event: EDO1_exit_screen_1 
+question: "Uh oh!"
+subquestion: "The application only applies to trees located in urban South Australia"
 buttons:
   - Exit: exit
     url: https://www.edo.org.au

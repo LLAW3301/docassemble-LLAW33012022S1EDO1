@@ -1,40 +1,73 @@
 ---
-Question: "Does the tree have a singular or multiple trunks"  
+## This question is asked to ensure trees which are deemed significant via unique characteristics are covered by the application.  
+# If user selects 'Listed', application proceeds to EDO1_significant.
+# If user selects 'Not Listed', application proceeds to EDO1_trunk. 
+question: |
+  Is the tree listed in Part 10 of the 'Significant Tree list' on PlanSA?
+subquestion: |
+  Please click [here](https://code.plan.sa.gov.au/home/browse_the_planning_and_design_code?code=browse) to view the list, and select part 10 on the side bar.
+field: EDO1_Part10
+choices:
+  - Not Listed: 'Tree not listed'
+  - Listed: 'Tree listed'
+---
+# If user selects 'Singular' or 'Multiple', application proceeds to EDO1_circumference.
+question: |
+  Does the tree have a singular trunk or multiple trunks? 
 field: EDO1_trunk
 choices: 
-  - singular: 'True'  
-  - multiple: 'False'
+  - Singular: 'True'  
+  - Multiple: 'Multiple'
 ---
-Question: "What is the total circumference of the trunk(s) 1 meter from ground (waist height)"
+## This question is asked to categorise the tree according to parameters provided within legislation. 
+# If user selects 'Less than 2 meters', application proceeds to EDO1_exit_screen_3.
+# If user selects '2 meters or more', application proceeds to EDO1_regulated.
+# If user selects '3 meters or more', application proceeds to EDO1_significant. 
+question: |
+  What is the total circumference of the trunk(s) measured from 1 meter above natural ground level?
 field: EDO1_circumference
-buttons: 
-  - less than 2 meters: '<2'
+choices: 
+  - Less than 2 meters: '<2'
   - 2 meters or more: '2+'
   - 3 meters or more: '3+'
 --- 
+## This question is only asked if the user selects 'multiple' in EDO1_trunk and when the user selects either '2 meters or more' / '3 meters or more' in EDO1_circumference.
+# If the user selects 'Yes', application proceeds to EDO1_regulated (if '2 meters or more') or EDO1_significant (if '3 meters or more'). 
+# If the user selects 'No', application proceeds to EDO1_exit_screen_3. 
 question: |
   Is the average circumference of the trunks greater than 625mm?
 field: EDO1_multiple_circumference
 datatype: radio 
 choices: 
 - Yes: 'True'
-- No: 'False'
+- No: 'Less than 625mm'
 ---
+# This statement is provided to let the user know that the regulated tree is protected, however exemptions may still apply.
+# When user selects 'continue', application proceeds to EDO1_exemption_images.
 question: |
-  This tree is considered regulated!
+  A regulated tree is protected under legislation. However, exemptions may still apply!
+subquestion: |
+  Press continue to find out.
 field: EDO1_regulated
 button: 
 - continue: continue 'True'
 ---
+## This statement is provided to let the user know that the significant tree is protected, however exemptions may still apply. 
+# When user selects 'continue', application proceeds to EDO1_exemption_images.
 question: |
-  This tree is considered significant!
+   A significant tree is protected under legislation. However, exemptions may still apply!
+subquestion: |
+  Press continue to find out.
 field: EDO1_significant
 button: 
 - continue: continue 'True'
 ---
+# Exit screen if the tree's trunk circumference is 'less than 2 meters' or trunk circumference is less than 625mm. 
+event: EDO1_exit_screen_3
 question: |
-  Tree is neither significant or regulatory
-field: EDO1_exit_screen_3
-button:
-  - bye: 
+  The tree is neither significant or regulated. No approval is required for removal. If you have further questions please contact the [Environmental Defenders Office](https://www.edo.org.au)
+buttons:
+  - Exit: exit
+    url: https://www.edo.org.au
+  - Restart: restart
 --- 
