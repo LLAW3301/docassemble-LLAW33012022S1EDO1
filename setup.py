@@ -43,12 +43,12 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.LLAW33012022S1EDO1',
-      version='Prototype ',
+      version='Final',
       description=(''),
-      long_description='# docassemble.LLAW33012022S1EDO1\r\n\r\n\r\n\r\n## Author\r\n\r\nJordan Buttery, butt0158@flinders.edu.au\r\n\r\n',
+      long_description='# Tree Ark\r\nA docassemble extension made in collaboration with the Enviromental Defenders Office for the purpose of simplifying the law surrounding tree protection in urban South Australia.\r\n## Authors\r\n* Jordan Buttery butt0158@flinders.edu.au\r\n* Adarsh Jacob jaco0194@flinders.edu.au\r\n* Lachlan Cromb crom0038@flinders.edu.au\r\n* Robert Cousins cous0060@flinders.edu.au\r\n* Zachary Caldicott-Millard cald0093@flinders.edu.au',
       long_description_content_type='text/markdown',
-      author='Jordan Buttery',
-      author_email='butt0158@flinders.edu.au',
+      author='',
+      author_email='',
       license='',
       url='https://docassemble.org',
       packages=find_packages(),

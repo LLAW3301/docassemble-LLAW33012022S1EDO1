@@ -1,4 +1,13 @@
 ---
+# Source for image used within header.
+objects:
+  - HeaderLogo: DAStaticFile.using(filename='Animated_Logo.gif')
+---
+# Code that controls the header and includes the header image. 
+mandatory: true
+code: |
+  set_parts(logo='<img src="' + HeaderLogo.url_for() + '" style="height: 45px;">')
+---
 # Provides a brief description of the application and the authors. 
 metadata:
   title: |
@@ -17,13 +26,16 @@ metadata:
     - organisation: Flinders University
     - name: Zac Caldicott-Millard 
     - organisation: Flinders University
-  revision_date: 2022-05-16
+  revision_date: 2022-05-28
 ---
 # Links the custom CSS file into the application.
 # Removes debugging and logging in features.
 features:
   css: EDO1.css
   debug: False
+  progress bar: True
+  show progress bar percentage: True
+  hide standard menu: True
 ---
 # The code for this application is spread across multiple files. This section ensures the main code reads all these files. 
 # Also allows desired code area to be identified for easy editing (i.e for legislation update). 
@@ -39,6 +51,8 @@ include:
 default screen parts:
   post: |
     <div style="display: flex; height: 170px; align-items: flex-end">
+    <div style="margin: 5px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" height="40">
+    </div>
     <div style="margin: 5px; margin-left: auto; margin-right: auto; font-size: 14px; font-family: Helvetica; color: ForestGreen">
     <small><i>
     Developed by Flinders University for the Environmental Defenders Office
@@ -53,7 +67,7 @@ code: |
   if EDO1_sigreg == 'Regulated':
     EDO1_regulated
   if EDO1_sigreg == 'Unsure':
-    if EDO1_Part10  == 'Tree listed':
+    if EDO1_Part10 == 'Tree listed':
       EDO1_significant
     if EDO1_Part10 == 'Tree not listed':
       EDO1_trunk
@@ -67,8 +81,8 @@ code: |
           if EDO1_multiple_circumference == 'Less than 625mm':
             EDO1_exit_screen_3
         EDO1_regulated
-    if EDO1_circumference == '<2':
-      EDO1_exit_screen_3  
+      if EDO1_circumference == '<2':
+        EDO1_exit_screen_3  
   if EDO1_exemption_images == 'False':
     EDO1_trees_end
   if EDO1_Bushfire_Hazard_area == True:
