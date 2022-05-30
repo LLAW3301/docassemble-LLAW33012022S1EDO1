@@ -77,7 +77,7 @@ button colours:
     background-color: (191,6,3,0.9);
     box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
 }
-/* This part sets the colours for danger type buttons*/
+/* This part sets the colours for warning type buttons*/
 .btn-warning{
     color: rgb(0,0,0);
     background-color: rgb(243,170,57);
